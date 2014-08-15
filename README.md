@@ -175,3 +175,26 @@ To commit any change inside of the configuration file you need to execute this c
 $ php /var/www/website/public/index.php cronInit
 ```
 
+## Crontab API
+
+You can use the CronManager Service to perform some little task with crontab
+
+```php
+$CronManager = $this->getServiceLocator()->get('CronManager');
+
+// list actual user cron table
+$output = $CronManager->getListeCrontab();
+
+if($output){
+    foreach($output as $line){
+        echo $line;
+    }
+}
+
+// Erase user cron table
+$CronManager->removeCrontab();
+
+// Initialise user cron table with the CronManager config file
+$CronManager->cronInit();
+
+```
