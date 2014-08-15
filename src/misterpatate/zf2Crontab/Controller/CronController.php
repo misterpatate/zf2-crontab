@@ -25,30 +25,6 @@ class CronController extends AbstractActionController {
         return $this->CronManager;
     }
 
-    public function indexAction(){
-
-        $pluginName = 'test';
-
-        $CronManager = $this->getCronManager();
-        $Plugin = $CronManager->get($pluginName);
-
-        $options=null;
-        $configuration = $this->getServiceLocator()->get('Config');
-
-        if(isset($configuration['CronManager']['plugins'][$pluginName]['options'])){
-            $options = $configuration['CronManager']['plugins'][$pluginName]['options'];
-        }
-
-        $Plugin->initPlugin($this->getServiceLocator(),$options);
-
-        try{
-            $Plugin->execute();
-        } catch(\Exception $e){
-            throw $e;
-        }
-
-    }
-
     public function crontabAction(){
 
         $request = $this->getRequest();
