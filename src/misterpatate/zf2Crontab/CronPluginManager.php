@@ -16,7 +16,7 @@ use RuntimeException;
 class CronPluginManager extends AbstractPluginManager
 {
     public $CronCommands;
-    public $CronPlugin;
+    public $CronPlugins;
 
     protected  $invokableClasses;
 
@@ -151,6 +151,8 @@ class CronPluginManager extends AbstractPluginManager
         fclose($fp);
 
         exec("crontab ".$tmpFile,$output);
+
+        unlink($tmpFile);
 
         return $output;
     }
