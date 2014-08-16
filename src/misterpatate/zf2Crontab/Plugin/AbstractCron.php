@@ -39,11 +39,18 @@ class AbstractCron
     }
 
     /**
-     * get the option array
-     *
-     * @return null|array
+     * @return mixed
      */
-    protected function getOptions(){
+    public function getOptions()
+    {
         return $this->options;
+    }
+
+    /**
+     * @param mixed $options
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
     }
 }

@@ -14,7 +14,7 @@ Task Manager for Zend 2 Project with cron
 
 In most application you need to execute task at a given time. This module allow you to manage cron jobs 
 directly inside your Zend 2 application.
-Cron Jobs could be shell commmands or class method 
+Cron Jobs could be shell commands or class method
 
 ## Features
 
@@ -74,7 +74,7 @@ For the first configuration, use the *.sample file for a good starting point.
     )
 ```
 
-- **IndexPath** : the paht of your index.php application file
+- **IndexPath** : the path of your index.php application file
     Used to interact with your application form command line. ( php /var/www/yourwebsite/public/index.php consoleRoute ).
 
 - **tmpPath** : The path of the temporary file to create crontable file ( PHP user need to have write right).
@@ -127,7 +127,7 @@ A plugin job is used to schedule execution of a PHP method.
 ```
 The plugin system use the ZF2 PluginManager system but all you have to do is to add class and configure it inside this config file.
 
-- **demo** is the cannonical name of your job, you must put an Alpha/Numeric value here.
+- **demo** is the canonical name of your job, you must put an Alpha/Numeric value here.
 
 - **is_active** : if set to true the command will be include inside the cron table.
 - **invokableClasse** : the NAMESPACE+Name of your plugin Class.
@@ -139,7 +139,7 @@ The plugin system use the ZF2 PluginManager system but all you have to do is to 
 
 ## Plugin Class
 
-To create your plugin class you just need to create a directory inside Plugin Dir. and create a class inside like in the exemple.
+To create your plugin class you just need to create a directory inside Plugin Dir. and create a class inside like in the example.
 
 ```php
 <?php
@@ -164,7 +164,7 @@ class Demo extends AbstractCron
 ```
 
 You must extend the AbstractCron class.
-For security reason you mest use the suffix "Action" at the end of every methode executed by cron job
+For security reason you must use the suffix "Action" at the end of every method executed by cron job
 In this class you have access to the ZF2 service manager with *$this->getServiceLocator()* and option array with *$this->getOptions()*.
 
 ## Lunch the scheduler
@@ -194,7 +194,20 @@ if($output){
 // Erase user cron table
 $CronManager->removeCrontab();
 
-// Initialise user cron table with the CronManager config file
+// Initialize user cron table with the CronManager config file
 $CronManager->cronInit();
+```
+
+With the CronManager service you can access to a plugin and execute task directly.
+
+In this example we use a plugin referenced in the CronManager config file under the 'UserManagment' name and we lunch the EmptyUselessProfileAction() method.
+```php
+$CronManager = $this->getServiceLocator()->get('CronManager');
+
+$UserManagmentCronPlugin = $CronManager->get('UserManagment');
+
+$UserManagmentCronPlugin->EmptyUselessProfileAction();
+
+$PluginOption = $UserManagmentCronPlugin->getOptions();
 
 ```

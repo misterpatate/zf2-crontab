@@ -20,7 +20,7 @@ class Demo extends AbstractCron
     }
 
     public function testMethAction(){
-        exec("date >> /var/www/yourwebsite/data/tmp/date.txt");
+       exec("date >> /var/www/yourwebsite/data/tmp/date.txt");
     }
 
 }

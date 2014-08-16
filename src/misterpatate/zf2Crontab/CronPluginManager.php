@@ -37,6 +37,34 @@ class CronPluginManager extends AbstractPluginManager
     }
 
     /**
+     * Retrieve a service from the manager by name
+     *
+     * Allows passing an array of options to use when creating the instance.
+     * createFromInvokable() will use these and pass them to the instance
+     * constructor if not null and a non-empty array.
+     *
+     * @param  string $name
+     * @param  array $options
+     * @param  bool $usePeeringServiceManagers
+     * @return object
+     */
+    public function get($name, $options = array(), $usePeeringServiceManagers = true)
+    {
+        $instance = parent::get($name, $options, $usePeeringServiceManagers);
+
+        $options=null;
+        $configuration = $this->getServiceLocator()->get('Config');
+
+        if(isset($configuration['CronManager']['plugins'][$name]['options'])){
+            $options = $configuration['CronManager']['plugins'][$name]['options'];
+        }
+
+        $instance->initPlugin($this->getServiceLocator(),$options);
+
+        return $instance;
+    }
+
+    /**
      * Add a new cron job command
      *
      * @param  string $canonicalName
@@ -173,15 +201,6 @@ class CronPluginManager extends AbstractPluginManager
             $Plugin = $this->get($pluginName);
 
             $methodName .= "Action";
-
-            $options=null;
-            $configuration = $this->getServiceLocator()->get('Config');
-
-            if(isset($configuration['CronManager']['plugins'][$pluginName]['options'])){
-                $options = $configuration['CronManager']['plugins'][$pluginName]['options'];
-            }
-
-            $Plugin->initPlugin($this->getServiceLocator(),$options);
 
             if(!method_exists($Plugin,$methodName)){
                 throw new \Exception("$methodName doesn't exist in $pluginName class");

@@ -8,7 +8,7 @@
  * @package misterpatate\zf2-crontab
  */
 return array(
-    'console' => array(
+     'console' => array(
         'router' => array(
             'routes' => array(
                 'crontab' => array(
